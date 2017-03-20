@@ -38,6 +38,10 @@ iex> Emojix.replace_by_html("I love my :dog:")
 ```
 
 ## Credits
----
+
 * Inspired by [Exmoji](https://github.com/mroth/exmoji)
 * Emoji provided free by [EmojiOne](http://emojione.com/)
+
+## TODO
+
+- [ ] write documentation
