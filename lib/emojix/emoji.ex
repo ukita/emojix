@@ -1,4 +1,7 @@
 defmodule Emojix.Emoji do
+  @moduledoc """
+  Emoji module
+  """
   defstruct [
     name:         nil,
     shortname:    nil,
