@@ -1,6 +1,4 @@
 defmodule Emojix.Emoji do
-  @emoji_path Application.get_env(:emojix, :path)
-
   defstruct [
     name:         nil,
     shortname:    nil,
@@ -10,7 +8,7 @@ defmodule Emojix.Emoji do
 
   def render(%Emojix.Emoji{unicode: unicode}, opts), do: render(unicode, opts)
   def render(unicode, :html) do
-    ~s(<svg class='emoji-icon'><use xlink:href="#{@emoji_path}#emoji-#{unicode}"></svg>)
+    ~s(<svg class='emoji-icon'><use xlink:href="#{emoji_path()}#emoji-#{unicode}"></svg>)
   end
   def render(unicode, :char) do
     unicode
@@ -32,5 +30,9 @@ defmodule Emojix.Emoji do
     |> Integer.to_string(16)
     |> String.rjust(4,?0)
     |> String.downcase
+  end
+
+  defp emoji_path do
+    Application.get_env(:emojix, :path, "/images/emoji.svg")
   end
 end
