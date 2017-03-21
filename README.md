@@ -16,7 +16,7 @@ end
 
 If you want to render in svg, you must run `mix emojix.install` to copy `emoji.svg` inside `priv/static/images`
 
-### Some examples:
+## Some examples:
 
 ```iex
 iex> Emojix.all
@@ -37,11 +37,11 @@ iex> Emojix.replace_by_html("I love my :dog:")
 "I love my <svg class='emoji-icon'><use xlink:href=\"/images/emoji.svg#emoji-1f436\"></svg>"
 ```
 
+## TODO
+
+- [ ] write the documentation
+
 ## Credits
 
 * Inspired by [Exmoji](https://github.com/mroth/exmoji)
 * Emoji provided free by [EmojiOne](http://emojione.com/)
-
-## TODO
-
-- [ ] write documentation

@@ -1,4 +1,8 @@
 defmodule Emojix do
+  @moduledoc """
+  An elixir library that converts emoji in char or svg. Supports 1820 emoji.
+  """
+
   emoji =
     Application.app_dir(:emojix, "priv/data/emoji.json")
     |> File.read!
@@ -27,8 +31,7 @@ defmodule Emojix do
 
   def find_by_keyword(keyword) do
     keyword = String.strip(keyword, ?:)
-    find_by_shortname(":#{keyword}:")
-    |> List.first
+    List.first(find_by_shortname(":#{keyword}:"))
   end
 
   def replace_by_char(text) do
@@ -51,7 +54,6 @@ defmodule Emojix do
 
   defp search_by(field, value) do
     value = String.downcase(value)
-    all()
-    |> Enum.filter(&String.contains?(Map.get(&1, field), value))
+    Enum.filter(all(), &String.contains?(Map.get(&1, field), value))
   end
 end
