@@ -42,6 +42,14 @@ defmodule Emojix do
     replace_text(text, :html)
   end
 
+  def replace_by_png(text, path) do
+    replace_text(text, [path, :png])
+  end
+
+  def replace_by_png(text) do
+    replace_text(text, :png)
+  end
+
   defp replace_text(text, opts) do
     Regex.replace(
       @regex,

@@ -53,6 +53,16 @@ defmodule EmojixTest do
     assert Emojix.replace_by_html(@text) === expected
   end
 
+  test "replace_by_png/2 replace all matched emojix by png" do
+    expected = ~s(<img src=\"/foo/bar/baz/1f468.png\"/> is on <img src=\"/foo/bar/baz/1f525.png\"/>)
+    assert Emojix.replace_by_png(@text, "/foo/bar/baz") === expected
+  end
+
+  test "replace_by_png/1 replace all matched emojix by png" do
+    expected = ~s(<img src=\"/images/1f468.png\"/> is on <img src=\"/images/1f525.png\"/>)
+    assert Emojix.replace_by_png(@text) === expected
+  end
+
   defp contains?(emoji, field, value) do
     String.contains?(Map.get(emoji, field), value)
   end
