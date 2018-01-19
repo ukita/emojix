@@ -18,7 +18,7 @@ If you want to render in svg, you must run `mix emojix.install` to copy `emoji.s
 
 ## Some examples:
 
-```iex
+```elixir
 iex> Emojix.all
 [%Emojix.Emoji{category: "objects", name: "money bag", shortname: ":moneybag:",
   unicode: "1f4b0"},
@@ -35,6 +35,12 @@ iex> Emojix.replace_by_char("The :man: is on :fire:")
 
 iex> Emojix.replace_by_html("I love my :dog:")
 "I love my <svg class='emoji-icon'><use xlink:href=\"/images/emoji.svg#emoji-1f436\"></svg>"
+
+iex(1)> Emojix.replace_by_png("I love my :dog:")
+"I love my <img src=\"/images/1f436.png\"/>"
+
+iex(2)> Emojix.replace_by_png("I love my :dog:", "/path/to/local/png/images/")
+"I love my <img src=\"/path/to/local/png/images//1f436.png\"/>"
 ```
 
 ## TODO
