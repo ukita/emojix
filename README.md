@@ -39,8 +39,8 @@ iex> Emojix.replace_by_html("I love my :dog:")
 iex(1)> Emojix.replace_by_png("I love my :dog:")
 "I love my <img src=\"/images/1f436.png\"/>"
 
-iex(2)> Emojix.replace_by_png("I love my :dog:", "/path/to/local/png/images/")
-"I love my <img src=\"/path/to/local/png/images//1f436.png\"/>"
+iex(2)> Emojix.replace_by_png("I love my :dog:", "/path/to/local/png/images")
+"I love my <img src=\"/path/to/local/png/images/1f436.png\"/>"
 ```
 
 ## TODO
