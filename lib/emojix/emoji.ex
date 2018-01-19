@@ -2,12 +2,10 @@ defmodule Emojix.Emoji do
   @moduledoc """
   Emoji module
   """
-  defstruct [
-    name:         nil,
-    shortname:    nil,
-    category:     nil,
-    unicode:      nil
-  ]
+  defstruct name: nil,
+            shortname: nil,
+            category: nil,
+            unicode: nil
 
   def render(%Emojix.Emoji{unicode: unicode}, opts), do: render(unicode, opts)
 
@@ -34,16 +32,16 @@ defmodule Emojix.Emoji do
 
   def char_to_unicode(char) when is_binary(char) do
     char
-    |> String.codepoints
+    |> String.codepoints()
     |> Enum.map(&binary_to_hex/1)
     |> Enum.join("-")
   end
 
-  defp binary_to_hex(<<code :: utf8>>) do
+  defp binary_to_hex(<<code::utf8>>) do
     code
     |> Integer.to_string(16)
-    |> String.rjust(4,?0)
-    |> String.downcase
+    |> String.rjust(4, ?0)
+    |> String.downcase()
   end
 
   defp base_path do
