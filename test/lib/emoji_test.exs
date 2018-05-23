@@ -2,10 +2,7 @@ defmodule Emojix.EmojiTest do
   use ExUnit.Case, async: true
 
   alias Emojix.Emoji
-  @emoji %Emoji{name:      "dog face",
-                category:  "nature",
-                shortname: ":dog:",
-                unicode:   "1f436"}
+  @emoji %Emoji{name: "dog face", category: "nature", shortname: ":dog:", unicode: "1f436"}
 
   test "render/2 render Emoji struct by char" do
     assert Emoji.render(@emoji, :char) === "🐶"

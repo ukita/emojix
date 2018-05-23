@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Emojix.Install do
   use Mix.Task
 
-  @shortdoc  "Installs Emojix assets"
+  @shortdoc "Installs Emojix assets"
   @file_path "priv/static/images/emoji.svg"
 
   @moduledoc """

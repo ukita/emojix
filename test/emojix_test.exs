@@ -3,10 +3,10 @@ defmodule EmojixTest do
   doctest Emojix
 
   @emojis_amount 1820
-  @text          ":man: is on :fire:"
+  @text ":man: is on :fire:"
 
   test "all/0 returns all #{@emojis_amount} emojis" do
-    assert Enum.count(Emojix.all) === @emojis_amount
+    assert Enum.count(Emojix.all()) === @emojis_amount
   end
 
   test "find_by_name/1 returns a list of Emojix.Emoji matched by name" do
@@ -49,7 +49,9 @@ defmodule EmojixTest do
   end
 
   test "replace_by_html/1 replace all matched emojix by html" do
-    expected = ~s(<svg class='emoji-icon'><use xlink:href="/images/emoji.svg#emoji-1f468"></svg> is on <svg class='emoji-icon'><use xlink:href="/images/emoji.svg#emoji-1f525"></svg>)
+    expected =
+      ~s(<svg class='emoji-icon'><use xlink:href="/images/emoji.svg#emoji-1f468"></svg> is on <svg class='emoji-icon'><use xlink:href="/images/emoji.svg#emoji-1f525"></svg>)
+
     assert Emojix.replace_by_html(@text) === expected
   end
 

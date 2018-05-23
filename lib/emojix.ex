@@ -5,9 +5,10 @@ defmodule Emojix do
 
   emoji =
     Application.app_dir(:emojix, "priv/data/emoji.json")
-    |> File.read!
+    |> File.read!()
     |> Poison.decode!(keys: :atoms)
     |> Enum.map(fn {_name, data} -> struct(Emojix.Emoji, data) end)
+
   @emoji emoji
   @regex ~r/:[\w]+:/
 
@@ -47,7 +48,9 @@ defmodule Emojix do
       @regex,
       text,
       fn keyword, _ ->
-        if emoji = Emojix.find_by_keyword(keyword), do: Emojix.Emoji.render(emoji, opts), else: keyword
+        if emoji = Emojix.find_by_keyword(keyword),
+          do: Emojix.Emoji.render(emoji, opts),
+          else: keyword
       end
     )
   end
