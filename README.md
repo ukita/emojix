@@ -1,47 +1,87 @@
-# Emojix
+# Emojix 💩
 
-## 💩
+[![Build Status](https://github.com/ukita/emojix/workflows/CI/badge.svg)](https://github.com/ukita/emojix/actions)
 
-An elixir library that converts emoji in char or svg. Supports 1820 emoji.
+Simple Elixir library to help you handle emojis.
 
 ## Installation
 
-The package can be installed by adding `emojix` to your list of dependencies in `mix.exs`:
+Add it to your deps list in your mix.exs
 
 ```elixir
 def deps do
-  [{:emojix, "~> 0.1.0"}]
+  [
+    {:emojix, "~> 0.2.0"}
+  ]
 end
 ```
 
-If you want to render in svg, you must run `mix emojix.install` to copy `emoji.svg` inside `priv/static/images`
+## Usage examples
 
-## Some examples:
-
-```iex
-iex> Emojix.all
-[%Emojix.Emoji{category: "objects", name: "money bag", shortname: ":moneybag:",
-  unicode: "1f4b0"},
- %Emojix.Emoji{category: "objects", name: "banknote with pound sign",
-  shortname: ":pound:", unicode: "1f4b7"},
- %Emojix.Emoji{category: "symbols", name: "negative squared cross mark",
-  shortname: ":negative_squared_cross_mark:", unicode: "274e"},...]
-
-iex> Emojix.all |> Enum.count
-1820
-
-iex> Emojix.replace_by_char("The :man: is on :fire:")
-"The 👨 is on 🔥"
-
-iex> Emojix.replace_by_html("I love my :dog:")
-"I love my <svg class='emoji-icon'><use xlink:href=\"/images/emoji.svg#emoji-1f436\"></svg>"
+```elixir
+iex> Emojix.all()
+[
+  %Emojix.Emoji{
+    description: "flag: Andorra",
+    hexcode: "1F1E6-1F1E9",
+    id: 3577,
+    shortcodes: ["flag_ad"],
+    tags: ["AD", "flag"],
+    unicode: "🇦🇩",
+    variations: []
+  },
+  %Emojix.Emoji{
+    description: "downcast face with sweat",
+    hexcode: "1F613",
+    id: 85,
+    shortcodes: ["shamed"],
+    tags: ["cold", "face", "sweat"],
+    unicode: "😓",
+    variations: []
+  },
+...
+]
+iex> Emojix.find_by_shortcode("gleeful")
+%Emojix.Emoji{
+  description: "grinning face",
+  hexcode: "1F600",
+  id: 1,
+  shortcodes: ["gleeful"],
+  tags: ["face", "grin"],
+  unicode: "😀",
+  variations: []
+}
+iex> Emojix.scan("Elixir is awesome!! ✌🏻👍🏽")
+[
+  %Emojix.Emoji{
+    description: "victory hand: light skin tone",
+    hexcode: "270C-1F3FB",
+    id: 206,
+    shortcodes: ["victory_tone1"],
+    tags: [],
+    unicode: "✌🏻",
+    variations: []
+  },
+  %Emojix.Emoji{
+    description: "thumbs up: medium skin tone",
+    hexcode: "1F44D-1F3FD",
+    id: 275,
+    shortcodes: ["thumbsup_tone3", "+1_tone3", "yes_tone3"],
+    tags: [],
+    unicode: "👍🏽",
+    variations: []
+  }
+]
 ```
 
-## TODO
+## Documentation
 
-- [ ] write the documentation
+Full API documentation is available here: https://hexdocs.pm/emojix/
 
 ## Credits
 
-* Inspired by [Exmoji](https://github.com/mroth/exmoji)
-* Emoji provided free by [EmojiOne](http://emojione.com/)
+Thanks for [@milesj](https://github.com/milesj) for provinding the [emoji datasets](https://github.com/milesj/emojibase).
+
+## License
+
+MIT
