@@ -1,41 +1,49 @@
-defmodule Emojix.Mixfile do
+defmodule Emojix.MixProject do
   use Mix.Project
 
-  @version "0.1.2"
+  @version "0.2.0"
 
   def project do
     [
       app: :emojix,
       version: @version,
-      elixir: "~> 1.4",
-      build_embedded: Mix.env() == :prod,
+      elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
+      deps: deps(),
       package: package(),
-      description: description(),
-      deps: deps()
+      description: description()
     ]
   end
 
-  def application, do: []
+  # Run "mix help compile.app" to learn about applications.
+  def application do
+    [
+      extra_applications: [:logger],
+      mod: {Emojix.App, []}
+    ]
+  end
+
+  # Run "mix help deps" to learn about dependencies.
+  defp deps do
+    [
+      {:jason, "~> 1.1"},
+      {:castore, "~> 0.1.0"},
+      {:mint, "~> 0.4.0"},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
+    ]
+  end
+
+  defp description do
+    """
+    Simple emoji library for Elixir. 💩
+    """
+  end
 
   defp package do
     [
       maintainers: ["Bruno Ukita <brunoukita@gmail.com>"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/ukita/emojix"}
-    ]
-  end
-
-  defp description do
-    """
-    An elixir library that converts emoji in char or svg. 💩
-    """
-  end
-
-  defp deps do
-    [
-      {:poison, "~> 3.0"},
-      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 end
