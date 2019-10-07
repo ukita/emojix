@@ -58,7 +58,7 @@ defmodule Emojix do
   @doc """
   Find a emoji by unicode
   ## Examples
-      iex> Emojix.find_by_shortcode("😼")
+      iex> Emojix.find_by_unicode("😼")
       %Emojix.Emoji{
         description: "cat with wry smile",
         hexcode: "1F63C",
