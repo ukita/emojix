@@ -7,7 +7,7 @@ defmodule Emojix.DataLoader do
 
   @ets_table_path Application.app_dir(:emojix, "priv/dataset.ets")
   @download_host "cdn.jsdelivr.net"
-  @download_path "/npm/emojibase-data@6.0.0/en/compact.json"
+  @download_path "/npm/emojibase-data@latest/en/compact.json"
 
   @spec load_table :: :emoji_table
   def load_table do
