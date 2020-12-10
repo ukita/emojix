@@ -49,13 +49,10 @@ defmodule Emojix.DataLoader do
   end
 
   defp merge_shortcodes(shortcodes, legacy_shortcodes) do
-    (Map.keys(shortcodes) ++ Map.keys(legacy_shortcodes))
-    |> Stream.uniq()
-    |> Stream.map(fn hexacode ->
-      list = List.wrap(shortcodes[hexacode] || []) ++ List.wrap(legacy_shortcodes[hexacode] || [])
-      {hexacode, Enum.uniq(list)}
+    Map.merge(shortcodes, legacy_shortcodes, fn _k, v1, v2 ->
+      (List.wrap(v1 || []) ++ List.wrap(v2 || []))
+      |> Enum.uniq()
     end)
-    |> Enum.into(%{})
   end
 
   defp create_table(json, json_shortcodes) do
