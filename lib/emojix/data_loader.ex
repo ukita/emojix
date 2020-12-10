@@ -7,7 +7,9 @@ defmodule Emojix.DataLoader do
 
   @ets_table_path Application.app_dir(:emojix, "priv/dataset.ets")
   @download_host "cdn.jsdelivr.net"
-  @download_path "/npm/emojibase-data@latest/en/compact.json"
+  @download_path "/npm/emojibase-data@6.0.0/en/compact.json"
+  @download_shortcodes "/npm/emojibase-data@6.0.0/en/shortcodes/iamcal.json"
+  @download_legacy_shortcodes "/npm/emojibase-data@6.0.0/en/shortcodes/emojibase-legacy.json"
 
   @spec load_table :: :emoji_table
   def load_table do
@@ -23,26 +25,41 @@ defmodule Emojix.DataLoader do
   @spec download_and_populate :: :emoji_table
   def download_and_populate do
     Logger.debug("Downloading emoji dataset")
+    json = Jason.decode!(download_file(@download_path), keys: :atoms)
+    json_shortcodes = Jason.decode!(download_file(@download_shortcodes), keys: :strings)
+
+    json_legacy_shortcodes =
+      Jason.decode!(download_file(@download_legacy_shortcodes), keys: :strings)
+
+    shortcodes = merge_shortcodes([json_shortcodes, json_legacy_shortcodes])
+
+    create_table(json, shortcodes)
+  end
+
+  defp download_file(path) do
     {:ok, conn} = HTTP.connect(:https, @download_host, 443)
 
     {:ok, conn, request_ref} =
-      HTTP.request(conn, "GET", @download_path, [{"content-type", "application/json"}], "")
+      HTTP.request(conn, "GET", path, [{"content-type", "application/json"}], "")
 
     {:ok, conn, body} = stream_request(conn, request_ref)
 
     Mint.HTTP.close(conn)
-
-    json = Jason.decode!(body, keys: :atoms)
-
-    create_table(json)
+    body
   end
 
-  defp create_table(json) do
+  defp merge_shortcodes(list) do
+    list
+    |> Enum.flat_map(&Map.to_list(&1))
+    |> Enum.group_by(fn {k, _} -> k end, fn {_, v} -> v end)
+  end
+
+  defp create_table(json, json_shortcodes) do
     Logger.debug("Building emoji ets table")
     table = :ets.new(:emoji_table, [:named_table])
 
     emoji_list =
-      parse_json(json)
+      parse_json(json, json_shortcodes)
       |> Enum.reduce([], fn e, acc ->
         e.variations ++ [e | acc]
       end)
@@ -62,21 +79,25 @@ defmodule Emojix.DataLoader do
     :emoji_table
   end
 
-  defp parse_json(json) do
-    Enum.reduce(json, [], fn emoji, list ->
-      [build_emoji_struct(emoji) | list]
+  defp parse_json(json, json_shortcodes) do
+    json
+    |> Stream.filter(&Map.has_key?(&1, :order))
+    |> Enum.reduce([], fn emoji, list ->
+      [build_emoji_struct(emoji, json_shortcodes) | list]
     end)
   end
 
-  defp build_emoji_struct(emoji) do
+  defp build_emoji_struct(emoji, json_shortcodes) do
+    shortcodes = Map.get(json_shortcodes, emoji.hexcode, [])
+
     %Emojix.Emoji{
       id: emoji.order,
       hexcode: emoji.hexcode,
       description: emoji.annotation,
-      shortcodes: emoji.shortcodes,
+      shortcodes: List.wrap(shortcodes),
       unicode: emoji.unicode,
       tags: Map.get(emoji, :tags, []),
-      variations: Map.get(emoji, :skins, []) |> Enum.map(&build_emoji_struct/1)
+      variations: Map.get(emoji, :skins, []) |> Enum.map(&build_emoji_struct(&1, json_shortcodes))
     }
   end
 
