@@ -31,7 +31,7 @@ defmodule Emojix.DataLoader do
     json_legacy_shortcodes =
       Jason.decode!(download_file(@download_legacy_shortcodes), keys: :strings)
 
-    shortcodes = merge_shortcodes([json_shortcodes, json_legacy_shortcodes])
+    shortcodes = merge_shortcodes(json_shortcodes, json_legacy_shortcodes)
 
     create_table(json, shortcodes)
   end
@@ -48,10 +48,14 @@ defmodule Emojix.DataLoader do
     body
   end
 
-  defp merge_shortcodes(list) do
-    list
-    |> Enum.flat_map(&Map.to_list(&1))
-    |> Enum.group_by(fn {k, _} -> k end, fn {_, v} -> v end)
+  defp merge_shortcodes(shortcodes, legacy_shortcodes) do
+    (Map.keys(shortcodes) ++ Map.keys(legacy_shortcodes))
+    |> Stream.uniq()
+    |> Stream.map(fn hexacode ->
+      list = List.wrap(shortcodes[hexacode] || []) ++ List.wrap(legacy_shortcodes[hexacode] || [])
+      {hexacode, Enum.uniq(list)}
+    end)
+    |> Enum.into(%{})
   end
 
   defp create_table(json, json_shortcodes) do
