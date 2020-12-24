@@ -2,7 +2,7 @@ defmodule EmojixTest do
   use ExUnit.Case
 
   test "list all the emojis" do
-    assert length(Emojix.all()) === 3019
+    assert length(Emojix.all()) === 3304
   end
 
   test "find emoji by shortcode" do
@@ -61,12 +61,12 @@ defmodule EmojixTest do
       %{
         description: "brick",
         expected: [
-          2668
+          2965
         ]
       },
       %{
         description: "dog",
-        expected: [2386, 2388, 2387, 2389, 2562]
+        expected: [2661, 2662, 2663, 2664, 2855]
       }
     ]
 
@@ -84,11 +84,11 @@ defmodule EmojixTest do
     test_cases = [
       %{
         tag: "boat",
-        expected: [2778, 1903, 1915, 2775, 2771, 1897, 2769, 2777, 2770]
+        expected: [2141, 2147, 2159, 3071, 3072, 3073, 3077, 3079, 3080]
       },
       %{
         tag: "bleed",
-        expected: [3240]
+        expected: [3555]
       }
     ]
 
