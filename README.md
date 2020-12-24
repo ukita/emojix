@@ -11,7 +11,7 @@ Add it to your deps list in your mix.exs
 ```elixir
 def deps do
   [
-    {:emojix, "~> 0.2.0"}
+    {:emojix, "~> 0.3.0"}
   ]
 end
 ```
