@@ -5,16 +5,20 @@ defmodule Emojix.DataLoader do
 
   alias Mint.HTTP
 
-  @ets_table_path Application.app_dir(:emojix, "priv/dataset.ets")
   @download_host "cdn.jsdelivr.net"
   @download_path "/npm/emojibase-data@6.0.0/en/compact.json"
   @download_shortcodes "/npm/emojibase-data@6.0.0/en/shortcodes/iamcal.json"
   @download_legacy_shortcodes "/npm/emojibase-data@6.0.0/en/shortcodes/emojibase-legacy.json"
 
+  @spec ets_table_path :: Path
+  def ets_table_path do
+    Path.join(:code.priv_dir(:emojix), "dataset.ets")
+  end
+
   @spec load_table :: :emoji_table
   def load_table do
     if table_exists?() do
-      {:ok, _} = :ets.file2tab(String.to_charlist(@ets_table_path))
+      {:ok, _} = :ets.file2tab(String.to_charlist(ets_table_path()))
 
       :emoji_table
     else
@@ -75,7 +79,7 @@ defmodule Emojix.DataLoader do
       end
     end
 
-    :ets.tab2file(:emoji_table, String.to_charlist(@ets_table_path))
+    :ets.tab2file(:emoji_table, String.to_charlist(ets_table_path()))
 
     :emoji_table
   end
@@ -104,7 +108,7 @@ defmodule Emojix.DataLoader do
 
   @spec table_exists? :: boolean
   defp table_exists? do
-    File.exists?(@ets_table_path)
+    File.exists?(ets_table_path())
   end
 
   defp stream_request(conn, request_ref, body \\ []) do
