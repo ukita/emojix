@@ -11,7 +11,7 @@ defmodule Emojix.Emoji do
             variations: []
 
   @type t :: %__MODULE__{
-          id: Integer.t(),
+          id: integer(),
           hexcode: String.t(),
           description: String.t(),
           shortcodes: [String.t()],
