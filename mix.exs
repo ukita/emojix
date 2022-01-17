@@ -28,7 +28,7 @@ defmodule Emojix.MixProject do
     [
       {:jason, "~> 1.1"},
       {:castore, "~> 0.1.0"},
-      {:mint, "~> 0.4.0"},
+      {:mint, "~> 0.4.0 or ~> 1.0"},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false}
     ]
   end
