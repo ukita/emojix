@@ -1,7 +1,7 @@
 defmodule Emojix.MixProject do
   use Mix.Project
 
-  @version "0.3.1"
+  @version "0.4.0"
 
   def project do
     [
@@ -26,10 +26,10 @@ defmodule Emojix.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:jason, "~> 1.1"},
-      {:castore, "~> 0.1.0"},
-      {:mint, "~> 0.4.0"},
-      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
+      {:jason, "~> 1.4"},
+      {:castore, "~> 1.0"},
+      {:mint, "~> 1.5"},
+      {:ex_doc, "~> 0.30", only: :dev, runtime: false}
     ]
   end
 

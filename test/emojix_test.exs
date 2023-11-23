@@ -2,7 +2,7 @@ defmodule EmojixTest do
   use ExUnit.Case
 
   test "list all the emojis" do
-    assert length(Emojix.all()) === 3304
+    assert length(Emojix.all()) === 3664
   end
 
   test "find emoji by shortcode" do
@@ -61,18 +61,18 @@ defmodule EmojixTest do
       %{
         description: "brick",
         expected: [
-          2965
+          "🧱"
         ]
       },
       %{
         description: "dog",
-        expected: [2661, 2662, 2663, 2664, 2855]
+        expected: ["🐕‍🦺", "🦮", "🌭", "🐕️", "🐶"]
       }
     ]
 
     Enum.each(test_cases, fn t ->
       emoji_list = Emojix.search_by_description(t.description)
-      assert Enum.any?(emoji_list, fn e -> Enum.member?(t.expected, e.id) end)
+      assert Enum.any?(emoji_list, fn e -> Enum.member?(t.expected, e.unicode) end)
     end)
   end
 
@@ -84,17 +84,17 @@ defmodule EmojixTest do
     test_cases = [
       %{
         tag: "boat",
-        expected: [2141, 2147, 2159, 3071, 3072, 3073, 3077, 3079, 3080]
+        expected: ["🚣", "⛴️", "🚢", "🚤", "⛵️", "🚣‍♀️", "🚣‍♂️", "🛥️", "🛶"]
       },
       %{
         tag: "bleed",
-        expected: [3555]
+        expected: ["🩸"]
       }
     ]
 
     Enum.each(test_cases, fn t ->
       emoji_list = Emojix.search_by_tag(t.tag)
-      assert Enum.any?(emoji_list, fn e -> Enum.member?(t.expected, e.id) end)
+      assert Enum.any?(emoji_list, fn e -> Enum.member?(t.expected, e.unicode) end)
     end)
   end
 
